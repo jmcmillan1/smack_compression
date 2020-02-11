@@ -2,14 +2,18 @@
 
 #include "types.h"
 
-typedef uint4 T;
+typedef uint8 T;
 #define RAND() __VERIFIER_nondet_unsigned_int()
 const size_t LEN = 10;
 
 #include "smack.h"
-#include "inv.h"
 
 
+#ifdef HARD
+#include "broken_algorithms/inv.h"
+#else
+#include "algorithms/inv.h"
+#endif
 
 
 int main(int argc, char** argv)
@@ -25,14 +29,23 @@ int main(int argc, char** argv)
   size_t encode_len = INV(source, LEN, encode);
   size_t decode_len = iINV(encode, encode_len, decode);
 
-  int ignore = (decode_len == LEN);
+#ifndef SMOKE
+  assert(decode_len == LEN);
+#endif
+
   for (size_t i=0; i<LEN; i++) {
-    ignore = (source[i] == decode[i]);
+#if defined(PASS) || defined(HARD)
+    assert(source[i] == decode[i]);
+#elif defined(FAIL)
+    assert(source[i] != decode[i]);
+#endif
   }
 
   free(source);
   free(encode);
   free(decode);
 
+#ifdef SMOKE
   assert(0);
+#endif
 }

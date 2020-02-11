@@ -2,14 +2,18 @@
 
 #include "types.h"
 
-typedef uint4 T;
+typedef uint2 T;
 #define RAND() __VERIFIER_nondet_unsigned_int()
-const uint8 LEN = 10;
+const size_t LEN = 10;
 
 #include "smack.h"
-#include "rle.h"
 
 
+#ifdef HARD
+#include "broken_algorithms/inv.h"
+#else
+#include "algorithms/inv.h"
+#endif
 
 
 int main(int argc, char** argv)
@@ -22,15 +26,26 @@ int main(int argc, char** argv)
     source[i] = RAND();
   }
 
-  uint8 encode_len = RLE(source, LEN, encode);
-  uint8 decode_len = iRLE(encode, encode_len, decode);
+  size_t encode_len = INV(source, LEN, encode);
+  size_t decode_len = iINV(encode, encode_len, decode);
 
+#ifndef SMOKE
   assert(decode_len == LEN);
-  for (uint8 i=0; i<LEN; i++) {
+#endif
+
+  for (size_t i=0; i<LEN; i++) {
+#if defined(PASS) || defined(HARD)
+    assert(source[i] == decode[i]);
+#elif defined(FAIL)
     assert(source[i] != decode[i]);
+#endif
   }
 
   free(source);
   free(encode);
   free(decode);
+
+#ifdef SMOKE
+  assert(0);
+#endif
 }

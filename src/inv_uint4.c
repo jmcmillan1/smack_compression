@@ -7,9 +7,13 @@ typedef uint4 T;
 const size_t LEN = 10;
 
 #include "smack.h"
-#include "lvs.h"
 
 
+#ifdef HARD
+#include "broken_algorithms/inv.h"
+#else
+#include "algorithms/inv.h"
+#endif
 
 
 int main(int argc, char** argv)
@@ -22,15 +26,26 @@ int main(int argc, char** argv)
     source[i] = RAND();
   }
 
-  size_t encode_len = LVs(source, LEN, encode);
-  size_t decode_len = iLVs(encode, encode_len, decode);
+  size_t encode_len = INV(source, LEN, encode);
+  size_t decode_len = iINV(encode, encode_len, decode);
 
+#ifndef SMOKE
   assert(decode_len == LEN);
+#endif
+
   for (size_t i=0; i<LEN; i++) {
+#if defined(PASS) || defined(HARD)
     assert(source[i] == decode[i]);
+#elif defined(FAIL)
+    assert(source[i] != decode[i]);
+#endif
   }
 
   free(source);
   free(encode);
   free(decode);
+
+#ifdef SMOKE
+  assert(0);
+#endif
 }

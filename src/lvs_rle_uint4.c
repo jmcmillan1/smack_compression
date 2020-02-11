@@ -7,10 +7,15 @@ typedef uint4 T;
 const size_t LEN = 10;
 
 #include "smack.h"
-#include "lvs.h"
-#include "rle.h"
 
 
+#ifdef HARD
+#include "broken_algorithms/lvs.h"
+#include "broken_algorithms/rle.h"
+#else
+#include "algorithms/lvs.h"
+#include "algorithms/rle.h"
+#endif
 
 
 int main(int argc, char** argv)
@@ -30,9 +35,16 @@ int main(int argc, char** argv)
   size_t decode_rle_len = iRLE(encode_rle, encode_rle_len, decode_rle);
   size_t decode_lvs_len = iLVs(decode_rle, decode_rle_len, decode_lvs);
 
-  int ignore = (decode_lvs_len == LEN);
+#ifndef SMOKE
+  assert(decode_lvs_len == LEN);
+#endif
+
   for (size_t i=0; i<LEN; i++) {
-    ignore = (source[i] == decode_lvs[i]);
+#if defined(PASS) || defined(HARD)
+    assert(source[i] == decode_lvs[i]);
+#elif defined(FAIL)
+    assert(source[i] != decode_lvs[i]);
+#endif
   }
 
   free(source);
@@ -41,5 +53,7 @@ int main(int argc, char** argv)
   free(decode_rle);
   free(decode_lvs);
 
+#ifdef SMOKE
   assert(0);
+#endif
 }
