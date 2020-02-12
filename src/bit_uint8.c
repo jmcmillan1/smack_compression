@@ -4,7 +4,11 @@
 
 typedef uint8 T;
 #define RAND() __VERIFIER_nondet_unsigned_long()
-const uint8 LEN = 64 + 2;
+
+#ifndef LEN
+#define LEN (10)
+#endif
+
 
 #include "smack.h"
 

@@ -1,6 +1,6 @@
 
 
-SMACK_FLAGS := --unroll=67
+SMACK_FLAGS := --unroll=100
 SMACK_FLAGS += --time-limit=86400
 SMACK_FLAGS += --bit-precise
 
@@ -10,7 +10,7 @@ BOOGIE_SMACK := ${SMACK} --verifier=boogie
 CVC4_SMACK   := ${SMACK} --verifier-options=/bopt:proverOpt:SOLVER=cvc4
 YICES2_SMACK := ${SMACK} --solver=yices2 --bit-precise-pointers
 
-CFLAGS := -Iinclude -I.
+CFLAGS := -Iinclude -I. -DLEN=1
 SMOKE := --clang-options="${CFLAGS} -DSMOKE"
 FAIL  := --clang-options="${CFLAGS} -DFAIL"
 HARD  := --clang-options="${CFLAGS} -DHARD"
@@ -41,9 +41,24 @@ hard_yices2_log_files  := $(patsubst src/%,hard_yices2_logs/%,${txt_extension})
 pass_yices2_log_files  := $(patsubst src/%,pass_yices2_logs/%,${txt_extension})
 
 
+.PHONY: help
+help:
+	@echo "Possible targets are:"
+	@echo "  all types for a solver:"
+	@echo "    corral"
+	@echo "    boogie"
+	@echo "    cvc4"
+	@echo "    yices2"
+	@echo "  all solvers for a target:"
+	@echo "    smoke"
+	@echo "    fail"
+	@echo "    hard"
+	@echo "    pass"
+	@echo "  specific type for specific solver"
+	@echo "    <type>_<solver>"
 
 
-.PHONY: all
+.PHONY: corral
 all: smoke_corral fail_corral hard_corral pass_corral
 
 .PHONY: boogie
@@ -55,6 +70,17 @@ cvc4: smoke_cvc4 fail_cvc4 hard_cvc4 pass_cvc4
 .PHONY: yices2
 yices2: smoke_yices2 fail_yices2 hard_yices2 pass_yices2
 
+.PHONY: smoke
+smoke: smoke-corral smoke-boogie smoke-cvc4 smoke-yices
+
+.PHONY: fail
+fail: fail-corral fail-boogie fail-cvc4 fail-yices
+
+.PHONY: hard
+hard: hard-corral hard-boogie hard-cvc4 hard-yices
+
+.PHONY: pass
+pass: pass-corral pass-boogie pass-cvc4 pass-yices
 
 
 
