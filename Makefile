@@ -10,7 +10,7 @@ BOOGIE_SMACK := ${SMACK} --verifier=boogie
 CVC4_SMACK   := ${SMACK} --verifier-options=/bopt:proverOpt:SOLVER=cvc4
 YICES2_SMACK := ${SMACK} --solver=yices2 --bit-precise-pointers
 
-CFLAGS := -Iinclude -I. -DLEN=1
+CFLAGS := -Iinclude -I. -DLEN=4
 SMOKE := --clang-options="${CFLAGS} -DSMOKE"
 FAIL  := --clang-options="${CFLAGS} -DFAIL"
 HARD  := --clang-options="${CFLAGS} -DHARD"
@@ -18,27 +18,27 @@ PASS  := --clang-options="${CFLAGS} -DPASS"
 
 source := $(wildcard src/*.c)
 
-txt_extension := $(patsubst %.c,%_log.txt,${source})
+txt_extension := $(patsubst %.c,%-log.txt,${source})
 
-smoke_corral_log_files := $(patsubst src/%,smoke_corral_logs/%,${txt_extension})
-fail_corral_log_files  := $(patsubst src/%,fail_corral_logs/%,${txt_extension})
-hard_corral_log_files  := $(patsubst src/%,hard_corral_logs/%,${txt_extension})
-pass_corral_log_files  := $(patsubst src/%,pass_corral_logs/%,${txt_extension})
+smoke_corral_log_files := $(patsubst src/%,smoke-corral-logs/%,${txt_extension})
+fail_corral_log_files  := $(patsubst src/%,fail-corral-logs/%,${txt_extension})
+hard_corral_log_files  := $(patsubst src/%,hard-corral-logs/%,${txt_extension})
+pass_corral_log_files  := $(patsubst src/%,pass-corral-logs/%,${txt_extension})
 
-smoke_boogie_log_files := $(patsubst src/%,smoke_boogie_logs/%,${txt_extension})
-fail_boogie_log_files  := $(patsubst src/%,fail_boogie_logs/%,${txt_extension})
-hard_boogie_log_files  := $(patsubst src/%,hard_boogie_logs/%,${txt_extension})
-pass_boogie_log_files  := $(patsubst src/%,pass_boogie_logs/%,${txt_extension})
+smoke_boogie_log_files := $(patsubst src/%,smoke-boogie-logs/%,${txt_extension})
+fail_boogie_log_files  := $(patsubst src/%,fail-boogie-logs/%,${txt_extension})
+hard_boogie_log_files  := $(patsubst src/%,hard-boogie-logs/%,${txt_extension})
+pass_boogie_log_files  := $(patsubst src/%,pass-boogie-logs/%,${txt_extension})
 
-smoke_cvc4_log_files   := $(patsubst src/%,smoke_cvc4_logs/%,${txt_extension})
-fail_cvc4_log_files    := $(patsubst src/%,fail_cvc4_logs/%,${txt_extension})
-hard_cvc4_log_files    := $(patsubst src/%,hard_cvc4_logs/%,${txt_extension})
-pass_cvc4_log_files    := $(patsubst src/%,pass_cvc4_logs/%,${txt_extension})
+smoke_cvc4_log_files   := $(patsubst src/%,smoke-cvc4-logs/%,${txt_extension})
+fail_cvc4_log_files    := $(patsubst src/%,fail-cvc4-logs/%,${txt_extension})
+hard_cvc4_log_files    := $(patsubst src/%,hard-cvc4-logs/%,${txt_extension})
+pass_cvc4_log_files    := $(patsubst src/%,pass-cvc4-logs/%,${txt_extension})
 
-smoke_yices2_log_files := $(patsubst src/%,smoke_yices2_logs/%,${txt_extension})
-fail_yices2_log_files  := $(patsubst src/%,fail_yices2_logs/%,${txt_extension})
-hard_yices2_log_files  := $(patsubst src/%,hard_yices2_logs/%,${txt_extension})
-pass_yices2_log_files  := $(patsubst src/%,pass_yices2_logs/%,${txt_extension})
+smoke_yices2_log_files := $(patsubst src/%,smoke-yices2-logs/%,${txt_extension})
+fail_yices2_log_files  := $(patsubst src/%,fail-yices2-logs/%,${txt_extension})
+hard_yices2_log_files  := $(patsubst src/%,hard-yices2-logs/%,${txt_extension})
+pass_yices2_log_files  := $(patsubst src/%,pass-yices2-logs/%,${txt_extension})
 
 
 .PHONY: help
@@ -55,140 +55,140 @@ help:
 	@echo "    hard"
 	@echo "    pass"
 	@echo "  specific type for specific solver"
-	@echo "    <type>_<solver>"
+	@echo "    <type>-<solver>"
 
 
 .PHONY: corral
-all: smoke_corral fail_corral hard_corral pass_corral
+corral: smoke-corral fail-corral hard-corral pass-corral
 
 .PHONY: boogie
-boogie: smoke_boogie fail_boogie hard_boogie pass_boogie
+boogie: smoke-boogie fail-boogie hard-boogie pass-boogie
 
 .PHONY: cvc4
-cvc4: smoke_cvc4 fail_cvc4 hard_cvc4 pass_cvc4
+cvc4: smoke-cvc4 fail-cvc4 hard-cvc4 pass-cvc4
 
 .PHONY: yices2
-yices2: smoke_yices2 fail_yices2 hard_yices2 pass_yices2
+yices2: smoke-yices2 fail-yices2 hard-yices2 pass-yices2
 
 .PHONY: smoke
-smoke: smoke-corral smoke-boogie smoke-cvc4 smoke-yices
+smoke: smoke-corral smoke-boogie smoke-cvc4 smoke-yices2
 
 .PHONY: fail
-fail: fail-corral fail-boogie fail-cvc4 fail-yices
+fail: fail-corral fail-boogie fail-cvc4 fail-yices2
 
 .PHONY: hard
-hard: hard-corral hard-boogie hard-cvc4 hard-yices
+hard: hard-corral hard-boogie hard-cvc4 hard-yices2
 
 .PHONY: pass
-pass: pass-corral pass-boogie pass-cvc4 pass-yices
+pass: pass-corral pass-boogie pass-cvc4 pass-yices2
 
 
 
 
-.PHONY: smoke_corral
-smoke_corral: ${smoke_corral_log_files}
+.PHONY: smoke-corral
+smoke-corral: ${smoke_corral_log_files}
 
-.PHONY: fail_corral
-fail_corral: ${fail_corral_log_files}
+.PHONY: fail-corral
+fail-corral: ${fail_corral_log_files}
 
-.PHONY: hard_corral
-hard_corral: ${hard_corral_log_files}
+.PHONY: hard-corral
+hard-corral: ${hard_corral_log_files}
 
-.PHONY: pass_corral
-pass_corral: ${pass_corral_log_files}
-
-
-.PHONY: smoke_boogie
-smoke_boogie: ${smoke_boogie_log_files}
-
-.PHONY: fail_boogie
-fail_boogie: ${fail_boogie_log_files}
-
-.PHONY: hard_boogie
-hard_boogie: ${hard_boogie_log_files}
-
-.PHONY: pass_boogie
-pass_boogie: ${pass_boogie_log_files}
+.PHONY: pass-corral
+pass-corral: ${pass_corral_log_files}
 
 
-.PHONY: smoke_cvc4
-smoke_cvc4: ${smoke_cvc4_log_files}
+.PHONY: smoke-boogie
+smoke-boogie: ${smoke_boogie_log_files}
 
-.PHONY: fail_cvc4
-fail_cvc4: ${fail_cvc4_log_files}
+.PHONY: fail-boogie
+fail-boogie: ${fail_boogie_log_files}
 
-.PHONY: hard_cvc4
-hard_cvc4: ${hard_cvc4_log_files}
+.PHONY: hard-boogie
+hard-boogie: ${hard_boogie_log_files}
 
-.PHONY: pass_cvc4
-pass_cvc4: ${pass_cvc4_log_files}
-
-
-.PHONY: smoke_yices2
-smoke_yices2: ${smoke_yices2_log_files}
-
-.PHONY: fail_yices2
-fail_yices2: ${fail_yices2_log_files}
-
-.PHONY: hard_yices2
-hard_yices2: ${hard_yices2_log_files}
-
-.PHONY: pass_yices2
-pass_yices2: ${pass_yices2_log_files}
+.PHONY: pass-boogie
+pass-boogie: ${pass_boogie_log_files}
 
 
+.PHONY: smoke-cvc4
+smoke-cvc4: ${smoke_cvc4_log_files}
+
+.PHONY: fail-cvc4
+fail-cvc4: ${fail_cvc4_log_files}
+
+.PHONY: hard-cvc4
+hard-cvc4: ${hard_cvc4_log_files}
+
+.PHONY: pass-cvc4
+pass-cvc4: ${pass_cvc4_log_files}
+
+
+.PHONY: smoke-yices2
+smoke-yices2: ${smoke_yices2_log_files}
+
+.PHONY: fail-yices2
+fail-yices2: ${fail_yices2_log_files}
+
+.PHONY: hard-yices2
+hard-yices2: ${hard_yices2_log_files}
+
+.PHONY: pass-yices2
+pass-yices2: ${pass_yices2_log_files}
 
 
 
-smoke_corral_logs/%_log.txt: src/%.c | smoke_corral_logs
+
+
+smoke-corral-logs/%-log.txt: src/%.c | smoke-corral-logs
 	! $(CORRAL_SMACK) ${SMOKE} $^ > $@ 2>&1
 
-fail_corral_logs/%_log.txt: src/%.c | fail_corral_logs
+fail-corral-logs/%-log.txt: src/%.c | fail-corral-logs
 	! $(CORRAL_SMACK) ${FAIL} $^ > $@ 2>&1
 
-hard_corral_logs/%_log.txt: src/%.c | hard_corral_logs
+hard-corral-logs/%-log.txt: src/%.c | hard-corral-logs
 	! $(CORRAL_SMACK) ${HARD} $^ > $@ 2>&1
 
-pass_corral_logs/%_log.txt: src/%.c | pass_corral_logs
+pass-corral-logs/%-log.txt: src/%.c | pass-corral-logs
 	$(CORRAL_SMACK) ${PASS} $^ > $@ 2>&1
 
 
-smoke_boogie_logs/%_log.txt: src/%.c | smoke_boogie_logs
+smoke-boogie-logs/%-log.txt: src/%.c | smoke-boogie-logs
 	! $(BOOGIE_SMACK) ${SMOKE} $^ > $@ 2>&1
 
-fail_boogie_logs/%_log.txt: src/%.c | fail_boogie_logs
+fail-boogie-logs/%-log.txt: src/%.c | fail-boogie-logs
 	! $(BOOGIE_SMACK) ${FAIL} $^ > $@ 2>&1
 
-hard_boogie_logs/%_log.txt: src/%.c | hard_boogie_logs
+hard-boogie-logs/%-log.txt: src/%.c | hard-boogie-logs
 	! $(BOOGIE_SMACK) ${HARD} $^ > $@ 2>&1
 
-pass_boogie_logs/%_log.txt: src/%.c | pass_boogie_logs
+pass-boogie-logs/%-log.txt: src/%.c | pass-boogie-logs
 	$(BOOGIE_SMACK) ${PASS} $^ > $@ 2>&1
 
 
-smoke_cvc4_logs/%_log.txt: src/%.c | smoke_cvc4_logs
+smoke-cvc4-logs/%-log.txt: src/%.c | smoke-cvc4-logs
 	! $(CVC4_SMACK) ${SMOKE} $^ > $@ 2>&1
 
-fail_cvc4_logs/%_log.txt: src/%.c | fail_cvc4_logs
+fail-cvc4-logs/%-log.txt: src/%.c | fail-cvc4-logs
 	! $(CVC4_SMACK) ${FAIL} $^ > $@ 2>&1
 
-hard_cvc4_logs/%_log.txt: src/%.c | hard_cvc4_logs
+hard-cvc4-logs/%-log.txt: src/%.c | hard-cvc4-logs
 	! $(CVC4_SMACK) ${HARD} $^ > $@ 2>&1
 
-pass_cvc4_logs/%_log.txt: src/%.c | pass_cvc4_logs
+pass-cvc4-logs/%-log.txt: src/%.c | pass-cvc4-logs
 	$(CVC4_SMACK) ${PASS} $^ > $@ 2>&1
 
 
-smoke_yices2_logs/%_log.txt: src/%.c | smoke_yices2_logs
+smoke-yices2-logs/%-log.txt: src/%.c | smoke-yices2-logs
 	! $(YICES2_SMACK) ${SMOKE} $^ > $@ 2>&1
 
-fail_yices2_logs/%_log.txt: src/%.c | fail_yices2_logs
+fail-yices2-logs/%-log.txt: src/%.c | fail-yices2-logs
 	! $(YICES2_SMACK) ${FAIL} $^ > $@ 2>&1
 
-hard_yices2_logs/%_log.txt: src/%.c | hard_yices2_logs
+hard-yices2-logs/%-log.txt: src/%.c | hard-yices2-logs
 	! $(YICES2_SMACK) ${HARD} $^ > $@ 2>&1
 
-pass_yices2_logs/%_log.txt: src/%.c | pass_yices2_logs
+pass-yices2-logs/%-log.txt: src/%.c | pass-yices2-logs
 	$(YICES2_SMACK) ${PASS} $^ > $@ 2>&1
 
 
@@ -196,56 +196,56 @@ pass_yices2_logs/%_log.txt: src/%.c | pass_yices2_logs
 
 
 
-smoke_corral_logs:
-	mkdir -p smoke_corral_logs
+smoke-corral-logs:
+	mkdir -p smoke-corral-logs
 
-fail_corral_logs:
-	mkdir -p fail_corral_logs
+fail-corral-logs:
+	mkdir -p fail-corral-logs
 
-hard_corral_logs:
-	mkdir -p hard_corral_logs
+hard-corral-logs:
+	mkdir -p hard-corral-logs
 
-pass_corral_logs:
-	mkdir -p pass_corral_logs
-
-
-smoke_boogie_logs:
-	mkdir -p smoke_boogie_logs
-
-fail_boogie_logs:
-	mkdir -p fail_boogie_logs
-
-hard_boogie_logs:
-	mkdir -p hard_boogie_logs
-
-pass_boogie_logs:
-	mkdir -p pass_boogie_logs
+pass-corral-logs:
+	mkdir -p pass-corral-logs
 
 
-smoke_cvc4_logs:
-	mkdir -p smoke_cvc4_logs
+smoke-boogie-logs:
+	mkdir -p smoke-boogie-logs
 
-fail_cvc4_logs:
-	mkdir -p fail_cvc4_logs
+fail-boogie-logs:
+	mkdir -p fail-boogie-logs
 
-hard_cvc4_logs:
-	mkdir -p hard_cvc4_logs
+hard-boogie-logs:
+	mkdir -p hard-boogie-logs
 
-pass_cvc4_logs:
-	mkdir -p pass_cvc4_logs
+pass-boogie-logs:
+	mkdir -p pass-boogie-logs
 
 
-smoke_yices2_logs:
-	mkdir -p smoke_yices2_logs
+smoke-cvc4-logs:
+	mkdir -p smoke-cvc4-logs
 
-fail_yices2_logs:
-	mkdir -p fail_yices2_logs
+fail-cvc4-logs:
+	mkdir -p fail-cvc4-logs
 
-hard_yices2_logs:
-	mkdir -p hard_yices2_logs
+hard-cvc4-logs:
+	mkdir -p hard-cvc4-logs
 
-pass_yices2_logs:
-	mkdir -p pass_yices2_logs
+pass-cvc4-logs:
+	mkdir -p pass-cvc4-logs
+
+
+smoke-yices2-logs:
+	mkdir -p smoke-yices2-logs
+
+fail-yices2-logs:
+	mkdir -p fail-yices2-logs
+
+hard-yices2-logs:
+	mkdir -p hard-yices2-logs
+
+pass-yices2-logs:
+	mkdir -p pass-yices2-logs
 
 
 
@@ -255,19 +255,19 @@ pass_yices2_logs:
 clean:
 	$(RM) *~
 	$(RM) */*~
-	$(RM) -r smoke_corral_logs
-	$(RM) -r fail_corral_logs
-	$(RM) -r hard_corral_logs
-	$(RM) -r pass_corral_logs
-	$(RM) -r smoke_cvc4_logs
-	$(RM) -r fail_cvc4_logs
-	$(RM) -r hard_cvc4_logs
-	$(RM) -r pass_cvc4_logs
-	$(RM) -r smoke_yices2_logs
-	$(RM) -r fail_yices2_logs
-	$(RM) -r hard_yices2_logs
-	$(RM) -r pass_yices2_logs
-	$(RM) -r smoke_boogie_logs
-	$(RM) -r fail_boogie_logs
-	$(RM) -r hard_boogie_logs
-	$(RM) -r pass_boogie_logs
+	$(RM) -r smoke-corral-logs
+	$(RM) -r fail-corral-logs
+	$(RM) -r hard-corral-logs
+	$(RM) -r pass-corral-logs
+	$(RM) -r smoke-cvc4-logs
+	$(RM) -r fail-cvc4-logs
+	$(RM) -r hard-cvc4-logs
+	$(RM) -r pass-cvc4-logs
+	$(RM) -r smoke-yices2-logs
+	$(RM) -r fail-yices2-logs
+	$(RM) -r hard-yices2-logs
+	$(RM) -r pass-yices2-logs
+	$(RM) -r smoke-boogie-logs
+	$(RM) -r fail-boogie-logs
+	$(RM) -r hard-boogie-logs
+	$(RM) -r pass-boogie-logs
