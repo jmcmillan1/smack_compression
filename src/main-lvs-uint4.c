@@ -1,6 +1,6 @@
 
 #define T uint4
-#define LEN (34)
+#define LEN (10)
 
 #include "lvs.c"
 

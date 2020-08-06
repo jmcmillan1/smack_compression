@@ -1,6 +1,6 @@
 
 #define T uint
-#define LEN (34)
+#define LEN (10)
 
 #include "rle.c"
 

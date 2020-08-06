@@ -4,12 +4,13 @@
 
 
 
+T count[LEN];
 
 static uint8 RLE(T *const in, const uint8 len, T *const out)
 {
   const uint4 maximum = (1ULL << (sizeof(T) * 4)) - 1;
   //T *count = new T[len];
-  T *count = (T*) malloc(len*sizeof(T));
+  //T *count = (T*) malloc(len*sizeof(T));
 
   uint8 wpos = 0;
   uint8 cpos = 0;
@@ -39,7 +40,7 @@ static uint8 RLE(T *const in, const uint8 len, T *const out)
   }
   for (uint8 i = 0; i < cpos; i++) out[wpos + i] = count[(cpos - 1) - i];
   //delete [] count;
-  free(count);
+  //free(count);
   return wpos + cpos;
 }
 

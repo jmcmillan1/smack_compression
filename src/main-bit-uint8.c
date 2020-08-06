@@ -1,6 +1,6 @@
 
 #define T uint8
-#define LEN (66)
+#define LEN (65)
 
 #include "bit.c"
 

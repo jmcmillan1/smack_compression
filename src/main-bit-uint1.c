@@ -1,6 +1,6 @@
 
 #define T uint1
-#define LEN (10)
+#define LEN (9)
 
 #include "bit.c"
 
