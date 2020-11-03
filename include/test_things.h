@@ -30,21 +30,11 @@
 #include "broken_algorithms/inv.h"
 #include "broken_algorithms/lvs.h"
 #include "broken_algorithms/rle.h"
-#include "broken_algorithms/dim.h"
-#include "broken_algorithms/lza.h"
-#include "broken_algorithms/mtf.h"
-#include "broken_algorithms/sms.h"
-#include "broken_algorithms/ze.h"
 #else
 #include "algorithms/bit.h"
 #include "algorithms/inv.h"
 #include "algorithms/lvs.h"
 #include "algorithms/rle.h"
-#include "algorithms/dim.h"
-#include "algorithms/lza.h"
-#include "algorithms/mtf.h"
-#include "algorithms/sms.h"
-#include "algorithms/ze.h"
 #endif
 
 #if defined(FAIL) || defined(HARD) || defined(PASS)
