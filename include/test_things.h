@@ -40,8 +40,8 @@
 #include "algorithms/inv.h"
 #include "algorithms/lvs.h"
 #include "algorithms/rle.h"
-#include "algorithms/dim.h"
-#include "algorithms/lza.h"
+//#include "algorithms/dim.h" //commented out to test running log files
+//#include "algorithms/lza.h"
 #include "algorithms/mtf.h"
 #include "algorithms/sms.h"
 #include "algorithms/ze.h"
