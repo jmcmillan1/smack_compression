@@ -44,7 +44,7 @@
 //#include "algorithms/lza.h"
 #include "algorithms/mtf.h"
 #include "algorithms/sms.h"
-#include "algorithms/ze.h"
+//#include "algorithms/ze.h"
 #endif
 
 #if defined(FAIL) || defined(HARD) || defined(PASS)
