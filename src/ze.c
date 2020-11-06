@@ -12,7 +12,7 @@ void test_ze(void)
         source[i] = RAND();
     }
 
-    size_t encode_len = ZE(source, Len, encode);
+    size_t encode_len = ZE(source, LEN, encode);
     size_t decode_len = iZE(encode, encode_len, decode);
 
     FHP_assert(decode_len == LEN);
