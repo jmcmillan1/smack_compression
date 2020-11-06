@@ -5,7 +5,7 @@
 static uint8 ZE(T *const in, const uint8 len, T *const out)
 {
   const uint1 dim = sizeof(T) * 8;
-  //T *pattern = new T[(len + (dim - 1)) / dim];
+  T *pattern = new T[(len + (dim - 1)) / dim];
   uint8 wpos = 0;
   uint8 cpos = 0;
   for (uint8 rpos = 0; rpos < len; rpos += dim) {
@@ -24,7 +24,7 @@ static uint8 ZE(T *const in, const uint8 len, T *const out)
     cpos++;
   }
   for (uint8 i = 0; i < cpos; i++) out[wpos + i] = pattern[(cpos - 1) - i];
-  //delete [] pattern;
+  delete [] pattern;
   return wpos + cpos;
 }
  
