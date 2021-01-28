@@ -151,14 +151,14 @@ make hard-boogie-logs/sms-uint2-log.txt
 make hard-boogie-logs/sms-uint4-log.txt
 make hard-boogie-logs/sms-uint8-log.txt
 
-make hard-corral-logs/ze-uint1-log.txt
-make hard-corral-logs/ze-uint2-log.txt
-make hard-corral-logs/ze-uint4-log.txt
-make hard-corral-logs/ze-uint8-log.txt
-make hard-boogie-logs/ze-uint1-log.txt
-make hard-boogie-logs/ze-uint2-log.txt
-make hard-boogie-logs/ze-uint4-log.txt
-make hard-boogie-logs/ze-uint8-log.txt
+#make hard-corral-logs/ze-uint1-log.txt
+#make hard-corral-logs/ze-uint2-log.txt
+#make hard-corral-logs/ze-uint4-log.txt
+#make hard-corral-logs/ze-uint8-log.txt
+#make hard-boogie-logs/ze-uint1-log.txt
+#make hard-boogie-logs/ze-uint2-log.txt
+#make hard-boogie-logs/ze-uint4-log.txt
+#make hard-boogie-logs/ze-uint8-log.txt
 
 #make pass-corral-logs/bit-uint1-log.txt
 #make pass-corral-logs/bit-uint2-log.txt
