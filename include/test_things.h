@@ -34,7 +34,7 @@
 //#include "broken_algorithms/lza.h"
 #include "broken_algorithms/mtf.h"
 #include "broken_algorithms/sms.h"
-//#include "broken_algorithms/ze.h"
+#include "broken_algorithms/ze.h"
 #else
 #include "algorithms/bit.h"
 #include "algorithms/inv.h"
@@ -44,7 +44,7 @@
 //#include "algorithms/lza.h"
 #include "algorithms/mtf.h"
 #include "algorithms/sms.h"
-//#include "algorithms/ze.h"
+#include "algorithms/ze.h"
 #endif
 
 #if defined(FAIL) || defined(HARD) || defined(PASS)
