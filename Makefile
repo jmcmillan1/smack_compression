@@ -9,7 +9,7 @@ SMACK := ${TIME} smack ${SMACK_FLAGS}
 CORRAL_SMACK := ${SMACK}
 BOOGIE_SMACK := ${SMACK} --verifier=boogie
 CVC4_SMACK   := ${SMACK} --verifier-options=/bopt:proverOpt:SOLVER=cvc4
-YICES2_SMACK := ${SMACK} --solver=yices2 --bit-precise-pointers
+YICES2_SMACK := ${SMACK} --solver=yices2 --pointer-encoding=bit-vector
 
 CFLAGS := -Iinclude -I. -Isrc
 SMOKE := --clang-options="${CFLAGS} -DSMOKE -DSMACK"
