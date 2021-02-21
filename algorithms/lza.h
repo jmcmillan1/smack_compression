@@ -1,4 +1,5 @@
 #include "types.h"
+#include "stdbool.h"
 
 static uint8 LZa(T *const in, const uint8 len, T *const out)
 {
@@ -59,7 +60,7 @@ static uint8 LZa(T *const in, const uint8 len, T *const out)
   return wpos + cpos;
 }
  
-template<typename T, uint1 order>
+
 static uint8 iLZa(T *const in, const uint8 len, T *const out)
 {
   const uint1 order = 2; //set order to 2 for initial run
