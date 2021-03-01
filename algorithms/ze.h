@@ -1,8 +1,8 @@
 
-#include <math.h>
+
 #include "types.h"
 
-double fmin(double x, double y);
+
 
 static uint8 ZE(T *const in, const uint8 len, T *const out)
 {
@@ -14,7 +14,11 @@ static uint8 ZE(T *const in, const uint8 len, T *const out)
   uint8 cpos = 0;
   for (uint8 rpos = 0; rpos < len; rpos += dim) {
     T bitpat = ~((T)0);
-    const uint8 end = fmin((rpos + dim), len);
+    if ((rpos+dim)<len){
+      const uint8 end = (rpos+dim);
+    }else{
+      const uint8 end = dim;
+    }
     for (uint8 p = rpos; p < end; p++) {
       const T val = in[p];
       if (val == 0) {
