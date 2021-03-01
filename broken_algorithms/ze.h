@@ -13,10 +13,11 @@ static uint8 ZE(T *const in, const uint8 len, T *const out)
   uint8 cpos = 0;
   for (uint8 rpos = 0; rpos < len; rpos += dim) {
     T bitpat = ~((T)0);
+    uint8 end;
     if ((rpos+dim)<len){
-      const uint8 end = (rpos+dim);
+      end = (rpos+dim);
     }else{
-      const uint8 end = dim;
+      end = dim;
     }
     for (uint8 p = rpos; p < end; p++) {
       const T val = in[p] + (rpos%5);	// break: added + (rpos%5)
