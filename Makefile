@@ -3,7 +3,7 @@
 SMACK_FLAGS := --unroll=100
 SMACK_FLAGS += --time-limit=86400
 SMACK_FLAGS += --integer-encoding=bit-vector
-SMACK_FLAGS += --bit-precise
+
 
 TIME := time -f %e
 SMACK := ${TIME} smack ${SMACK_FLAGS}
